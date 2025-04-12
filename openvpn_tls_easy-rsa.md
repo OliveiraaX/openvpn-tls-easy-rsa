@@ -106,37 +106,38 @@ nano /etc/openvpn/server.conf
 #   Criado por: Dhiones Santana
 #   Data: 14/04/2025
 # ========================================
-port 1194
-proto udp
-dev tun
+port 1194                     # Porta para conexão
+proto udp                     # Utiliza protocolo UDP
+dev tun                       # Cria interface TUN (túnel IP - camada 3)
 
-ca /etc/openvpn/ca.crt
-cert /etc/openvpn/servidor.crt
-key /etc/openvpn/servidor.key
-dh /etc/openvpn/dh.pem
+ca /etc/openvpn/ca.crt        # Certificado da autoridade certificadora (CA)
+cert /etc/openvpn/servidor.crt  # Certificado do servidor
+key /etc/openvpn/servidor.key   # Chave privada do servidor
+dh /etc/openvpn/dh.pem          # Parâmetros de Diffie-Hellman para troca segura de chaves
 
-server 10.8.0.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
+server 10.8.0.0 255.255.255.0   # Define rede virtual da VPN
+ifconfig-pool-persist ipp.txt  # Salva IPs atribuídos para manter consistência nas conexões
 
-push "route 10.8.0.0 255.255.255.0"
+push "route 10.8.0.0 255.255.255.0"  # Empurra rota da própria rede VPN
 
-;push "dhcp-option DNS 8.8.8.8"
-;push "dhcp-option DNS 1.1.1.1"
+;push "dhcp-option DNS 8.8.8.8"     # (Comentado) Pode ser ativado para forçar uso do DNS Google
+;push "dhcp-option DNS 1.1.1.1"     # (Comentado) Pode ser ativado para forçar uso do DNS Cloudflare
 
-keepalive 10 120
+keepalive 10 120             # Envia ping a cada 10s, considera desconectado após 120s sem resposta
 
-;comp-lzo
+;comp-lzo                    # Compressão LZO desativada (por segurança - risco de ataque VORACLE)
 
-persist-key
-persist-tun
+persist-key                  # Mantém chave carregada entre reinicializações
+persist-tun                  # Mantém interface TUN ativa entre reconexões
 
-verb 3
+status /var/log/openvpn-status.log  # Arquivo de status da VPN em tempo real
+log-append /var/log/openvpn.log     # Adiciona entradas no log principal
 
-status /var/log/openvpn-status.log
-log-append /var/log/openvpn.log
+verb 3                       # Nível de verbosidade dos logs (3 é ideal para debug moderado)
 
-user nobody
-group nogroup
+user nobody                  # Após iniciar como root, troca para usuário com poucos privilégios
+group nogroup                # Mesmo princípio acima, para o grupo
+
 ```
 
 ---
@@ -155,19 +156,25 @@ tls-client
 dev tun
 port 1194
 proto udp
-remote "IP DO SERVIDOR"
+remote IP DO SERVIDOR
 remote-random
 resolv-retry infinite
 nobind
 persist-key
 persist-tun
+# SSL
+#dh dh2048.pem
 ca ca.crt
 cert cliente1.crt
 key cliente1.key
-;comp-lzo
+#compress lz4
+
+#Logs
 status openvpn-status.log
-log /var/log/openvpn.log
-log-append /var/log/openvpn.log
+status  /var/log/openvpn-status.log
+log     /var/log/openvpn.log
+log-append      /var/log/openvpn.log
+#Nivel de logs
 verb 5
 pull
 tun-mtu 1500
@@ -206,10 +213,11 @@ key cliente2.key
 Transfira os arquivos para o novo host:
 
 ```
-cliente2.ovpn
-ca.crt
-cliente2.crt
-cliente2.key
+cp easy-rsa/pki/ca.crt /etc/openvpn/novocliente.crt
+novocliente.conf
+cp easy-rsa/pki/issued/ca.crt  /etc/openvpn/ca.cr
+cp easy-rsa/pki/issued/novocliente.crt /etc/openvpn/novocliente.crt
+cp easy-rsa/pki/private/novocliente.key /etc/openvpn/novocliente.key
 ```
 
 ---

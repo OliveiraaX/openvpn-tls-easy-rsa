@@ -34,8 +34,8 @@ nano /etc/openvpn/easy-rsa/vars
 set_var EASYRSA_REQ_COUNTRY    "BR"
 set_var EASYRSA_REQ_PROVINCE   "PR"
 set_var EASYRSA_REQ_CITY       "Londrina"
-set_var EASYRSA_REQ_ORG        "Ipsolution"
-set_var EASYRSA_REQ_EMAIL      "dhiones.oliveirax@gmail.com"
+set_var EASYRSA_REQ_ORG        "teste"
+set_var EASYRSA_REQ_EMAIL      "teste@gmail.com"
 set_var EASYRSA_REQ_OU         "Suporte"
 ```
 
@@ -184,7 +184,7 @@ tun-mtu 1500
 
 ## 📁 10. Organização dos arquivos do cliente
 
-Coloque os arquivos abaixo na mesma pasta do `.ovpn`:
+Coloque os arquivos abaixo na mesma pasta do `.conf`:
 
 ```
 cliente1.ovpn
@@ -213,9 +213,7 @@ key cliente2.key
 Transfira os arquivos para o novo host:
 
 ```
-cp easy-rsa/pki/ca.crt /etc/openvpn/novocliente.crt
-novocliente.conf
-cp easy-rsa/pki/issued/ca.crt  /etc/openvpn/ca.cr
+cp easy-rsa/pki/issued/ca.crt  /etc/openvpn/ca.crt
 cp easy-rsa/pki/issued/novocliente.crt /etc/openvpn/novocliente.crt
 cp easy-rsa/pki/private/novocliente.key /etc/openvpn/novocliente.key
 ```

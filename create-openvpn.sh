@@ -1,4 +1,6 @@
 #!/bin/bash
+# Script created by OliveiraX
+# GitHub: https://github.com/OliveiraaX
 
 # Função para coletar informações
 get_input() {

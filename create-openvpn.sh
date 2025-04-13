@@ -47,6 +47,11 @@ configure_server() {
 
     echo "[+] Criando configuração do servidor OpenVPN..."
     sudo tee /etc/openvpn/server.conf > /dev/null <<EOF
+# ========================================
+#   Arquivo de configuração OpenVPN
+#   Criado por: Dhiones Santana
+#   Data: 13/04/2025
+# ========================================
 port 1194
 proto udp
 dev tun

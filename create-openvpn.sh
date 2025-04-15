@@ -95,18 +95,29 @@ configure_client() {
     sudo cp pki/private/$CLIENT_NAME.key /etc/openvpn/client/
 
     sudo tee /etc/openvpn/client/$CLIENT_NAME.ovpn > /dev/null <<EOF
-client
-dev tun
-proto udp
-remote $(hostname -I | awk '{print $1}') 1194
-resolv-retry infinite
-nobind
-persist-key
-persist-tun
-ca ca.crt
-cert $CLIENT_NAME.crt
-key $CLIENT_NAME.key
-verb 3
+client                          # Modo cliente OpenVPN
+dev tun                         # Usa interface TUN (camada 3 - IP)
+proto udp                       # Protocolo de transporte (UDP é mais rápido e leve)
+remote $(hostname -I | awk '{print $1}') 1194    # IP ou domínio do servidor + porta da VPN (altere para seu IP real)
+remote-random                   # Tenta servidores remotos em ordem aleatória (se houver mais de um)
+resolv-retry infinite           # Tenta reconectar indefinidamente se falhar em resolver o DNS
+nobind                          # Não tenta vincular a uma porta específica no cliente
+persist-key                     # Mantém as chaves entre reconexões
+persist-tun                     # Mantém a interface TUN ativa entre reconexões
+
+ca ca.crt                       # Caminho para o certificado da autoridade certificadora
+cert cliente1.crt               # Certificado do cliente (autenticação TLS mútua)
+key cliente1.key                # Chave privada do cliente
+
+pull                            # Puxa configurações do servidor (como rotas, DNS, etc.)
+tun-mtu 1500                    # Tamanho máximo da unidade de transmissão da TUN
+
+verb 3                          # Nível de verbosidade do log 
+
+# Logs
+status openvpn-status.log       # Arquivo de status da sessão VPN (conexões ativas, IPs, etc.)
+log /var/log/openvpn.log        # Log principal (pode ver eventos, conexões, erros, etc.)
+log-append /var/log/openvpn.log # Adiciona ao log em vez de sobrescrever
 EOF
 
     echo "[+] Cliente VPN '$CLIENT_NAME' criado em /etc/openvpn/client/$CLIENT_NAME.ovpn"

@@ -115,13 +115,13 @@ cert /etc/openvpn/servidor.crt  # Certificado do servidor
 key /etc/openvpn/servidor.key   # Chave privada do servidor
 dh /etc/openvpn/dh.pem          # Parâmetros de Diffie-Hellman para troca segura de chaves
 
-server 10.8.0.0 255.255.255.0   # Define rede virtual da VPN
+server IP VPN 255.255.255.0   # Define rede virtual da VPN
 ifconfig-pool-persist ipp.txt  # Salva IPs atribuídos para manter consistência nas conexões
 
 push "route 10.8.0.0 255.255.255.0"  # Empurra rota da própria rede VPN
 
-;push "dhcp-option DNS 8.8.8.8"     # (Comentado) Pode ser ativado para forçar uso do DNS Google
-;push "dhcp-option DNS 1.1.1.1"     # (Comentado) Pode ser ativado para forçar uso do DNS Cloudflare
+;push "dhcp-option DNS 8.8.8.8"     # Pode ser ativado para forçar uso do DNS Google
+;push "dhcp-option DNS 1.1.1.1"     # Pode ser ativado para forçar uso do DNS Cloudflare
 
 keepalive 10 120             # Envia ping a cada 10s, considera desconectado após 120s sem resposta
 
@@ -151,33 +151,31 @@ nano cliente1.conf
 **Conteúdo do cliente:**
 
 ```
-client
-tls-client
-dev tun
-port 1194
-proto udp
-remote IP DO SERVIDOR
-remote-random
-resolv-retry infinite
-nobind
-persist-key
-persist-tun
-# SSL
-#dh dh2048.pem
-ca ca.crt
-cert cliente1.crt
-key cliente1.key
-#compress lz4
+client                          # Modo cliente OpenVPN
+dev tun                         # Usa interface TUN (camada 3 - IP)
+proto udp                       # Protocolo de transporte (UDP é mais rápido e leve)
+remote IP DO SERVIDOR            # IP ou domínio do servidor + porta da VPN (altere para seu IP real)
+port 1194                       # configurar porta
+remote-random                   # Tenta servidores remotos em ordem aleatória (se houver mais de um)
+resolv-retry infinite           # Tenta reconectar indefinidamente se falhar em resolver o DNS
+nobind                          # Não tenta vincular a uma porta específica no cliente
+persist-key                     # Mantém as chaves entre reconexões
+persist-tun                     # Mantém a interface TUN ativa entre reconexões
 
-#Logs
-status openvpn-status.log
-status  /var/log/openvpn-status.log
-log     /var/log/openvpn.log
-log-append      /var/log/openvpn.log
-#Nivel de logs
-verb 5
-pull
-tun-mtu 1500
+ca ca.crt                       # Caminho para o certificado da autoridade certificadora
+cert cliente1.crt               # Certificado do cliente (autenticação TLS mútua)
+key cliente1.key                # Chave privada do cliente
+
+pull                            # Puxa configurações do servidor (como rotas, DNS, etc.)
+tun-mtu 1500                    # Tamanho máximo da unidade de transmissão da TUN
+
+verb 3                          # Nível de verbosidade do log (3 = recomendado para produção)
+
+# Logs
+status openvpn-status.log       # Arquivo de status da sessão VPN (conexões ativas, IPs, etc.)
+log /var/log/openvpn.log        # Log principal (pode ver eventos, conexões, erros, etc.)
+log-append /var/log/openvpn.log # Adiciona ao log em vez de sobrescrever
+
 ```
 
 ---

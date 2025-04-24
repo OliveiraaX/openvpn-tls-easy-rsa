@@ -67,8 +67,8 @@ Confirme com `yes` quando solicitado.
 ## 👤 5. Criando certificado e chave do cliente
 
 ```bash
-./easyrsa gen-req cliente1 nopass
-./easyrsa sign-req client cliente1
+./easyrsa gen-req **NOME DO CLIENTE** nopass
+./easyrsa sign-req client **NOME DO CLIENTE**
 ```
 
 ---
@@ -86,8 +86,8 @@ Confirme com `yes` quando solicitado.
 ```bash
 cp pki/dh.pem /etc/openvpn/
 cp pki/ca.crt /etc/openvpn/
-cp pki/issued/servidor.crt /etc/openvpn/
-cp pki/private/servidor.key /etc/openvpn/
+cp pki/issued/**NOME DO SERVIDOR**.crt /etc/openvpn/
+cp pki/private/**NOME DO SERVIDOR**.key /etc/openvpn/
 ```
 
 ---
@@ -95,7 +95,7 @@ cp pki/private/servidor.key /etc/openvpn/
 ## ⚙️ 8. Configurando o servidor OpenVPN
 
 ```bash
-nano /etc/openvpn/server.conf
+nano /etc/openvpn/**NOME DO SERVIDOR**.conf
 ```
 
 **Conteúdo do arquivo:**
@@ -111,8 +111,8 @@ proto udp                     # Utiliza protocolo UDP
 dev tun                       # Cria interface TUN (túnel IP - camada 3)
 
 ca /etc/openvpn/ca.crt        # Certificado da autoridade certificadora (CA)
-cert /etc/openvpn/servidor.crt  # Certificado do servidor
-key /etc/openvpn/servidor.key   # Chave privada do servidor
+cert /etc/openvpn/**NOME DO SERVIDOR**.crt  # Certificado do servidor
+key /etc/openvpn/**NOME DO SERVIDOR**.key   # Chave privada do servidor
 dh /etc/openvpn/dh.pem          # Parâmetros de Diffie-Hellman para troca segura de chaves
 
 server IP VPN 255.255.255.0   # Define rede virtual da VPN
@@ -145,7 +145,7 @@ group nogroup                # Mesmo princípio acima, para o grupo
 ## 🧳 9. Arquivo de configuração do cliente
 
 ```bash
-nano cliente1.conf
+nano **NOME DO CLIENTE**.conf
 ```
 
 **Conteúdo do cliente:**
@@ -185,10 +185,10 @@ log-append /var/log/openvpn.log # Adiciona ao log em vez de sobrescrever
 Coloque os arquivos abaixo na mesma pasta do `.conf`:
 
 ```
-cliente1.ovpn
+**NOME DO CLIENTE**.conf
 ca.crt
-cliente1.crt
-cliente1.key
+**NOME DO CLIENTE**.crt
+**NOME DO CLIENTE**.key
 ```
 
 ---
@@ -197,23 +197,23 @@ cliente1.key
 
 ```bash
 cd /etc/openvpn/easy-rsa
-./easyrsa gen-req cliente2 nopass
-./easyrsa sign-req client cliente2
+./easyrsa gen-req **NOME DO CLIENTE2** nopass
+./easyrsa sign-req client **NOME DO CLIENTE2**
 ```
 
-Depois, copie o arquivo `cliente1.conf` e altere as linhas:
+Depois, copie o arquivo `**NOME DO CLIENTE2**.conf` e altere as linhas:
 
 ```
-cert cliente2.crt
-key cliente2.key
+cert **NOME DO CLIENTE2**.crt
+key **NOME DO CLIENTE2**.key
 ```
 
 Transfira os arquivos para o novo host:
 
 ```
 cp easy-rsa/pki/issued/ca.crt  /etc/openvpn/ca.crt
-cp easy-rsa/pki/issued/novocliente.crt /etc/openvpn/novocliente.crt
-cp easy-rsa/pki/private/novocliente.key /etc/openvpn/novocliente.key
+cp easy-rsa/pki/issued/novocliente.crt /etc/openvpn/**NOME DO CLIENTE2**.crt
+cp easy-rsa/pki/private/novocliente.key /etc/openvpn/**NOME DO CLIENTE2**.key
 ```
 
 ---

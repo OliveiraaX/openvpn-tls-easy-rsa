@@ -40,6 +40,7 @@ configure_server() {
     sudo ./easyrsa build-ca nopass
     sudo ./easyrsa gen-req $SERVER_NAME nopass
     sudo ./easyrsa sign-req server $SERVER_NAME
+    sudo sleep 10
     sudo ./easyrsa gen-dh
 
     sudo cp pki/ca.crt /etc/openvpn/

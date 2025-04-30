@@ -151,7 +151,7 @@ nano **NOME DO CLIENTE**.conf
 **Conteúdo do cliente:**
 
 ```
-client                          # Modo cliente OpenVPN
+tls-client                          # Modo cliente OpenVPN
 dev tun                         # Usa interface TUN (camada 3 - IP)
 proto udp                       # Protocolo de transporte (UDP é mais rápido e leve)
 remote IP DO SERVIDOR            # IP ou domínio do servidor + porta da VPN (altere para seu IP real)

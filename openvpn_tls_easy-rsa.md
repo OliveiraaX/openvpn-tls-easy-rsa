@@ -58,11 +58,6 @@ cd /etc/openvpn/easy-rsa
 ```bash
 ./easyrsa gen-req **NOME DO SERVIDOR** nopass
 ./easyrsa sign-req server **NOME DO SERVIDOR** 
-```
-
-Confirme com `yes` quando solicitado.
-
----
 
 ## 👤 5. Criando certificado e chave do cliente
 
@@ -70,7 +65,6 @@ Confirme com `yes` quando solicitado.
 ./easyrsa gen-req **NOME DO CLIENTE** nopass
 ./easyrsa sign-req client **NOME DO CLIENTE**
 ```
-
 ---
 
 ## 📁 6. Gerando a chave Diffie-Hellman
@@ -84,10 +78,14 @@ Confirme com `yes` quando solicitado.
 ## 📦 7. Movendo os arquivos para o OpenVPN
 
 ```bash
-cp pki/dh.pem /etc/openvpn/
-cp pki/ca.crt /etc/openvpn/
-cp pki/issued/**NOME DO SERVIDOR**.crt /etc/openvpn/
-cp pki/private/**NOME DO SERVIDOR**.key /etc/openvpn/
+cp pki/dh.pem /etc/openvpn/server/
+cp pki/ca.crt /etc/openvpn/server/
+cp pki/issued/**NOME DO SERVIDOR**.crt /etc/openvpn/server/
+cp pki/private/**NOME DO SERVIDOR**.key /etc/openvpn/server/
+cp pki/ca.crt /etc/openvpn/client/
+cp pki/issued/**NOME DO CLIENT**.crt /etc/openvpn/client/
+cp pki/private/**NOME DO CLIENT**.key /etc/openvpn/client/
+
 ```
 
 ---
@@ -95,7 +93,7 @@ cp pki/private/**NOME DO SERVIDOR**.key /etc/openvpn/
 ## ⚙️ 8. Configurando o servidor OpenVPN
 
 ```bash
-nano /etc/openvpn/**NOME DO SERVIDOR**.conf
+nano /etc/openvpn/server/server.conf
 ```
 
 **Conteúdo do arquivo:**
@@ -110,12 +108,12 @@ port 1194                     # Porta para conexão
 proto udp                     # Utiliza protocolo UDP
 dev tun                       # Cria interface TUN (túnel IP - camada 3)
 
-ca /etc/openvpn/ca.crt        # Certificado da autoridade certificadora (CA)
-cert /etc/openvpn/**NOME DO SERVIDOR**.crt  # Certificado do servidor
-key /etc/openvpn/**NOME DO SERVIDOR**.key   # Chave privada do servidor
-dh /etc/openvpn/dh.pem          # Parâmetros de Diffie-Hellman para troca segura de chaves
+ca /etc/openvpn/server/ca.crt        # Certificado da autoridade certificadora (CA)
+cert /etc/openvpn/server/**NOME DO SERVIDOR**.crt  # Certificado do servidor
+key /etc/openvpn/server/**NOME DO SERVIDOR**.key   # Chave privada do servidor
+dh /etc/openvpn/server/dh.pem          # Parâmetros de Diffie-Hellman para troca segura de chaves
 
-server IP VPN 255.255.255.0   # Define rede virtual da VPN
+server *IP* 255.255.255.0   # Define rede virtual da VPN
 ifconfig-pool-persist ipp.txt  # Salva IPs atribuídos para manter consistência nas conexões
 
 push "route 10.8.0.0 255.255.255.0"  # Empurra rota da própria rede VPN
@@ -145,7 +143,7 @@ group nogroup                # Mesmo princípio acima, para o grupo
 ## 🧳 9. Arquivo de configuração do cliente
 
 ```bash
-nano **NOME DO CLIENTE**.conf
+nano client.conf
 ```
 
 **Conteúdo do cliente:**
@@ -163,8 +161,8 @@ persist-key                     # Mantém as chaves entre reconexões
 persist-tun                     # Mantém a interface TUN ativa entre reconexões
 
 ca ca.crt                       # Caminho para o certificado da autoridade certificadora
-cert cliente1.crt               # Certificado do cliente (autenticação TLS mútua)
-key cliente1.key                # Chave privada do cliente
+cert *nome_cliente*.crt               # Certificado do cliente (autenticação TLS mútua)
+key *nome_cliente*.key                # Chave privada do cliente
 
 pull                            # Puxa configurações do servidor (como rotas, DNS, etc.)
 tun-mtu 1500                    # Tamanho máximo da unidade de transmissão da TUN

@@ -18,25 +18,20 @@ apt install openvpn easy-rsa -y
 
 ```bash
 # Copie os arquivos do easy-rsa para o diretório do OpenVPN
-cp -r /usr/share/easy-rsa/ /etc/openvpn
-cp /etc/openvpn/easy-rsa/vars.example /etc/openvpn/easy-rsa/vars
+cp -r /usr/share/easy-rsa/ /etc/openvpn && cp /etc/openvpn/easy-rsa/vars.example /etc/openvpn/easy-rsa/vars
 ```
 
-### ✍️ Agora edite o arquivo `vars` com as suas informações:
+### ✍️ Adicionar informações no `vars`:
 
 ```bash
-nano /etc/openvpn/easy-rsa/vars
-```
-
-**Altere essas linhas no final:**
-
-```
+tee /etc/openvpn/easy-rsa/vars > /dev/null << 'EOF'
 set_var EASYRSA_REQ_COUNTRY    "BR"
 set_var EASYRSA_REQ_PROVINCE   "PR"
 set_var EASYRSA_REQ_CITY       "Londrina"
 set_var EASYRSA_REQ_ORG        "teste"
 set_var EASYRSA_REQ_EMAIL      "teste@gmail.com"
 set_var EASYRSA_REQ_OU         "Suporte"
+EOF
 ```
 
 ---

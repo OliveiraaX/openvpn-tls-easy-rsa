@@ -169,19 +169,6 @@ log-append /var/log/openvpn.log # Adiciona ao log em vez de sobrescrever
 
 ---
 
-## 📁 10. Organização dos arquivos do cliente
-
-Coloque os arquivos abaixo na mesma pasta do `.conf`:
-
-```
-**NOME DO CLIENTE**.conf
-ca.crt
-**NOME DO CLIENTE**.crt
-**NOME DO CLIENTE**.key
-```
-
----
-
 ## ➕ 11. Como adicionar mais clientes
 
 ```bash

@@ -100,8 +100,8 @@ proto udp                     # Utiliza protocolo UDP
 dev tun                       # Cria interface TUN (túnel IP - camada 3)
 
 ca /etc/openvpn/server/ca.crt        # Certificado da autoridade certificadora (CA)
-cert /etc/openvpn/server/**NOME DO SERVIDOR**.crt  # Certificado do servidor
-key /etc/openvpn/server/**NOME DO SERVIDOR**.key   # Chave privada do servidor
+cert /etc/openvpn/server/**NAME_SERVER**.crt  # Certificado do servidor
+key /etc/openvpn/server/**NAME_SERVER**.key   # Chave privada do servidor
 dh /etc/openvpn/server/dh.pem          # Parâmetros de Diffie-Hellman para troca segura de chaves
 
 server *IP* 255.255.255.0   # Define rede virtual da VPN
@@ -152,8 +152,8 @@ persist-key                     # Mantém as chaves entre reconexões
 persist-tun                     # Mantém a interface TUN ativa entre reconexões
 
 ca ca.crt                       # Caminho para o certificado da autoridade certificadora
-cert *nome_cliente*.crt               # Certificado do cliente (autenticação TLS mútua)
-key *nome_cliente*.key                # Chave privada do cliente
+cert *NAME_CLIENT*.crt               # Certificado do cliente (autenticação TLS mútua)
+key *NAME_CLIENT*.key                # Chave privada do cliente
 
 pull                            # Puxa configurações do servidor (como rotas, DNS, etc.)
 tun-mtu 1500                    # Tamanho máximo da unidade de transmissão da TUN

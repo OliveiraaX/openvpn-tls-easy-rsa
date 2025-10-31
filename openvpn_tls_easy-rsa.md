@@ -39,9 +39,7 @@ EOF
 ## 🔐 3. Inicializando a PKI e criando a CA
 
 ```bash
-cd /etc/openvpn/easy-rsa
-./easyrsa init-pki
-./easyrsa build-ca
+cd /etc/openvpn/easy-rsa && ./easyrsa init-pki && ./easyrsa build-ca
 ```
 
 📝 **Dica:** Vai pedir uma senha — escolha uma forte e guarde bem!
@@ -72,13 +70,12 @@ cd /etc/openvpn/easy-rsa
 ## 📦 7. Movendo os arquivos para o OpenVPN
 
 ```bash
-cp pki/dh.pem /etc/openvpn/server/
-cp pki/ca.crt /etc/openvpn/server/
-cp pki/issued/**NOME DO SERVIDOR**.crt /etc/openvpn/server/
-cp pki/private/**NOME DO SERVIDOR**.key /etc/openvpn/server/
+cp pki/dh.pem /etc/openvpn/server/ && cp pki/ca.crt /etc/openvpn/server/
+cp pki/issued/**NAME_SERVER**.crt /etc/openvpn/server/
+cp pki/private/**NAME_SERVER**.key /etc/openvpn/server/
 cp pki/ca.crt /etc/openvpn/client/
-cp pki/issued/**NOME DO CLIENT**.crt /etc/openvpn/client/
-cp pki/private/**NOME DO CLIENT**.key /etc/openvpn/client/
+cp pki/issued/**NAME_CLIENT**.crt /etc/openvpn/client/
+cp pki/private/**NAME_CLIENT**.key /etc/openvpn/client/
 
 ```
 

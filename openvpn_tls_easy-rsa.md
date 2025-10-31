@@ -53,10 +53,9 @@ cd /etc/openvpn/easy-rsa
 ```bash
 ./easyrsa gen-req **NOME DO SERVIDOR** nopass
 ./easyrsa sign-req server **NOME DO SERVIDOR** 
-
+---
 ## 👤 5. Criando certificado e chave do cliente
 
-```bash
 ./easyrsa gen-req **NOME DO CLIENTE** nopass
 ./easyrsa sign-req client **NOME DO CLIENTE**
 ```

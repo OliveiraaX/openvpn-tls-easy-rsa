@@ -84,7 +84,6 @@ cp pki/private/**NAME_CLIENT**.key /etc/openvpn/client/
 ## ⚙️ 8. Configurando o servidor OpenVPN
 
 ```bash
-```
 tee /etc/openvpn/server/server.conf > /dev/null << 'EOF'
 # ========================================
 #   Arquivo de configuração OpenVPN

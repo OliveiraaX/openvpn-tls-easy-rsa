@@ -84,12 +84,8 @@ cp pki/private/**NAME_CLIENT**.key /etc/openvpn/client/
 ## ⚙️ 8. Configurando o servidor OpenVPN
 
 ```bash
-nano /etc/openvpn/server/server.conf
 ```
-
-**Conteúdo do arquivo:**
-
-```
+tee /etc/openvpn/server/server.conf > /dev/null << 'EOF'
 # ========================================
 #   Arquivo de configuração OpenVPN
 #   Criado por: Dhiones Santana
@@ -126,7 +122,7 @@ verb 3                       # Nível de verbosidade dos logs (3 é ideal para d
 
 user nobody                  # Após iniciar como root, troca para usuário com poucos privilégios
 group nogroup                # Mesmo princípio acima, para o grupo
-
+EOF
 ```
 
 ---
@@ -134,12 +130,7 @@ group nogroup                # Mesmo princípio acima, para o grupo
 ## 🧳 9. Arquivo de configuração do cliente
 
 ```bash
-nano client.conf
-```
-
-**Conteúdo do cliente:**
-
-```
+tee /etc/openvpn/client/client.conf > /dev/null << 'EOF'
 tls-client                          # Modo cliente OpenVPN
 dev tun                         # Usa interface TUN (camada 3 - IP)
 proto udp                       # Protocolo de transporte (UDP é mais rápido e leve)
@@ -164,7 +155,7 @@ verb 3                          # Nível de verbosidade do log (3 = recomendado 
 status openvpn-status.log       # Arquivo de status da sessão VPN (conexões ativas, IPs, etc.)
 log /var/log/openvpn.log        # Log principal (pode ver eventos, conexões, erros, etc.)
 log-append /var/log/openvpn.log # Adiciona ao log em vez de sobrescrever
-
+EOF
 ```
 
 ---

@@ -49,13 +49,13 @@ cd /etc/openvpn/easy-rsa && ./easyrsa init-pki && ./easyrsa build-ca
 ## 🖥️ 4. Criando certificado e chave do servidor
 
 ```bash
-./easyrsa gen-req **NOME DO SERVIDOR** nopass
-./easyrsa sign-req server **NOME DO SERVIDOR** 
+./easyrsa gen-req $s nopass
+./easyrsa sign-req server $s 
 
 ## 👤 5. Criando certificado e chave do cliente
 
-./easyrsa gen-req **NOME DO CLIENTE** nopass
-./easyrsa sign-req client **NOME DO CLIENTE**
+./easyrsa gen-req $c nopass
+./easyrsa sign-req client $c
 ```
 ---
 

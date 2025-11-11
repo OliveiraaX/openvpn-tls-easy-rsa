@@ -71,11 +71,11 @@ cd /etc/openvpn/easy-rsa && ./easyrsa init-pki && ./easyrsa build-ca
 
 ```bash
 cp pki/dh.pem /etc/openvpn/server/ && cp pki/ca.crt /etc/openvpn/server/
-cp pki/issued/**NAME_SERVER**.crt /etc/openvpn/server/
-cp pki/private/**NAME_SERVER**.key /etc/openvpn/server/
+cp pki/issued/$s.crt /etc/openvpn/server/
+cp pki/private/$s.key /etc/openvpn/server/
 cp pki/ca.crt /etc/openvpn/client/
-cp pki/issued/**NAME_CLIENT**.crt /etc/openvpn/client/
-cp pki/private/**NAME_CLIENT**.key /etc/openvpn/client/
+cp pki/issued/$c.crt /etc/openvpn/client/
+cp pki/private/$c.key /etc/openvpn/client/
 
 ```
 

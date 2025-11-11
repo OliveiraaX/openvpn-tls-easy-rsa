@@ -4,7 +4,8 @@
 📆 _Data: 12/04/2025_
 
 ---
-
+export c=client
+export c2=client2
 ## 📦 1. Instalando os pacotes necessários
 
 ```bash
@@ -163,23 +164,23 @@ EOF
 
 ```bash
 cd /etc/openvpn/easy-rsa
-./easyrsa gen-req **NOME DO CLIENTE2** nopass
-./easyrsa sign-req client **NOME DO CLIENTE2**
+./easyrsa gen-req $c2 nopass
+./easyrsa sign-req client $c2
 ```
 
 Depois, copie o arquivo `**NOME DO CLIENTE2**.conf` e altere as linhas:
 
 ```
-cert **NOME DO CLIENTE2**.crt
-key **NOME DO CLIENTE2**.key
+cert $c2.crt
+key $c2.key
 ```
 
 Transfira os arquivos para o novo host:
 
 ```
 cp easy-rsa/pki/issued/ca.crt  /etc/openvpn/ca.crt
-cp easy-rsa/pki/issued/novocliente.crt /etc/openvpn/**NOME DO CLIENTE2**.crt
-cp easy-rsa/pki/private/novocliente.key /etc/openvpn/**NOME DO CLIENTE2**.key
+cp easy-rsa/pki/issued/$c2 /etc/openvpn/client
+cp easy-rsa/pki/private/$c2y /etc/openvpn/client/
 ```
 
 ---

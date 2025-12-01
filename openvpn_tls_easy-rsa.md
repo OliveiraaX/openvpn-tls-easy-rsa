@@ -4,8 +4,8 @@
 📆 _Data: 12/04/2025_
 
 ---
-export c=client
-export c2=client2
+c=cliente
+s=server
 ## 📦 1. Instalando os pacotes necessários
 
 ```bash
